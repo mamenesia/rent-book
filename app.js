@@ -20,6 +20,7 @@ app.use(bodyParser({
   extended: false
 }))
 
+// Middleware Route
 app.use('/books', BookRoute)
 app.use('/genre', GenreRoute)
 app.use('/rent', RentRoute)

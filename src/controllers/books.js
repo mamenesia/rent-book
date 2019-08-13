@@ -2,7 +2,12 @@ const modelBooks = require('../models/books')
 
 module.exports = {
   getBooks: (req, res) => {
-    modelBooks.getBooks()
+    const numPerPage = 3
+    // let dataLength = Object.keys(req.query).length
+    // // const numPages = Math.ceil(dataLength / numPerPage)
+    let activePage = req.query.page || 1
+    let beginData = (numPerPage * activePage) - numPerPage
+    modelBooks.getBooks(beginData, numPerPage)
       .then(result => res.json(result))
       .catch(err => console.log(err))
   },
@@ -37,7 +42,10 @@ module.exports = {
   deleteBook: (req, res) => {
     let id = req.params.id
     modelBooks.deleteBook(id)
-      .then(result => console.log('Book has been deleted', result))
+      .then(result => res.send({
+        message: 'Book has been deleted',
+        result: result
+      }))
       .catch(err => console.log(err))
   },
   sortByTitle: (req, res) => {

@@ -28,7 +28,7 @@ module.exports = {
   deleteGenre: (req, res) => {
     let id = req.params.id
     modelGenres.deleteGenre(id)
-      .then(result => console.log('Genre has been deleted', result))
+      .then(result => res.send('Genre has been deleted', result))
       .catch(err => console.log(err))
   }
 }
