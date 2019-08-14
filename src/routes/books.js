@@ -1,17 +1,26 @@
 // Route for /books
 const express = require('express')
 const Route = express.Router()
-
+const verifyToken = require('../middleware/verifyToken')
 const BookController = require('../controllers/books')
 
 Route
-  .get('/', BookController.getBooks)
+  // Books CRUD 
+  .get('/', verifyToken, BookController.getBooks)
   .post('/', BookController.insertBook)
   .patch('/:id', BookController.updateBook)
   .delete('/:id', BookController.deleteBook)
-  .get('/sort-by-title', BookController.sortByTitle)
-  .get('/sort-by-date', BookController.sortByDate)
-  .get('/sort-by-genre', BookController.sortByGenre)
-  .get('/search/:q', BookController.searchBook)
+  // Rent book
+  .get('/rent', BookController.getAvailableBooks)
+  .patch('/rent/:id', BookController.rentBook)
+  // Return Book
+  .get('/return', BookController.getAllRentedBook)
+  .patch('/return/:id', BookController.returnBook)
+  // Genre CRUD
+  .get('/genre', BookController.getGenres)
+  .post('/genre', BookController.insertGenre)
+  .patch('/genre/:id', BookController.updateGenre)
+  .delete('/genre/:id', BookController.deleteGenre)
+
 
 module.exports = Route

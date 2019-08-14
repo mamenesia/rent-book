@@ -2,9 +2,9 @@ const conn = require('../configs/db')
 const joinTable = 'SELECT book.title, book.desc, book.image_url, book.released_at, genre.genre, status.status FROM book, genre, status WHERE book.genre=genre.genre_id AND book.available=status.status_id'
 
 module.exports = {
-  getBooks: (beginData, numPerPage) => {
+  getBooks: (beginData, numPerPage, sort, order, querySearch) => {
     return new Promise((resolve, reject) => {
-      conn.query(`${joinTable} LIMIT ?, ?`, [beginData, numPerPage], (err, result) => {
+      conn.query(`${joinTable} ${querySearch} ORDER BY book.${sort} ${order} LIMIT ?, ?`, [beginData, numPerPage], (err, result) => {
         if (!err) {
           resolve(result)
         } else {
@@ -49,9 +49,9 @@ module.exports = {
       })
     })
   },
-  sortByTitle: () => {
+  getAvailableBooks: () => {
     return new Promise((resolve, reject) => {
-      conn.query(`${joinTable} ORDER BY book.title ASC`, (err, result) => {
+      conn.query(`${joinTable} AND status.status_id=1`, (err, result) => {
         if (!err) {
           resolve(result)
         } else {
@@ -60,9 +60,9 @@ module.exports = {
       })
     })
   },
-  sortByDate: () => {
+  rentBook: (data, id) => {
     return new Promise((resolve, reject) => {
-      conn.query(`${joinTable} ORDER BY book.released_at DESC`, (err, result) => {
+      conn.query('UPDATE book SET ? WHERE book_id=?', [data, id], (err, result) => {
         if (!err) {
           resolve(result)
         } else {
@@ -71,9 +71,9 @@ module.exports = {
       })
     })
   },
-  sortByGenre: () => {
+  getAllRentedBook: () => {
     return new Promise((resolve, reject) => {
-      conn.query(`${joinTable} ORDER BY genre.genre ASC`, (err, result) => {
+      conn.query(`${joinTable} AND status.status_id=0`, (err, result) => {
         if (!err) {
           resolve(result)
         } else {
@@ -82,9 +82,53 @@ module.exports = {
       })
     })
   },
-  searchBook: (q) => {
+  returnBook: (data, id) => {
     return new Promise((resolve, reject) => {
-      conn.query(`${joinTable} AND book.title LIKE '%${q}%'`, (err, result) => {
+      conn.query('UPDATE book SET ? WHERE book_id=?', [data, id], (err, result) => {
+        if (!err) {
+          resolve(result)
+        } else {
+          reject(err)
+        }
+      })
+    })
+  },
+  getGenres: () => {
+    return new Promise((resolve, reject) => {
+      conn.query('SELECT * FROM genre', (err, result) => {
+        if (!err) {
+          resolve(result)
+        } else {
+          reject(err)
+        }
+      })
+    })
+  },
+  insertGenre: (data) => {
+    return new Promise((resolve, reject) => {
+      conn.query('INSERT genre SET ?', data, (err, result) => {
+        if (!err) {
+          resolve(result)
+        } else {
+          reject(err)
+        }
+      })
+    })
+  },
+  updateGenre: (data, id) => {
+    return new Promise((resolve, reject) => {
+      conn.query('UPDATE genre SET ? WHERE genre_id=?', [data, id], (err, result) => {
+        if (!err) {
+          resolve(result)
+        } else {
+          reject(err)
+        }
+      })
+    })
+  },
+  deleteGenre: (id) => {
+    return new Promise((resolve, reject) => {
+      conn.query('DELETE FROM genre WHERE genre_id=?', id, (err, result) => {
         if (!err) {
           resolve(result)
         } else {

@@ -6,9 +6,6 @@ const logger = require('morgan')
 const bodyParser = require('body-parser')
 const AuthRoute = require('./src/routes/auth')
 const BookRoute = require('./src/routes/books')
-const GenreRoute = require('./src/routes/genres')
-const RentRoute = require('./src/routes/rent')
-const ReturnRoute = require('./src/routes/return')
 const port = process.env.SERVER_PORT || 3000
 
 app.listen(port, () => {
@@ -24,6 +21,3 @@ app.use(bodyParser({
 // Middleware Route
 app.use('/', AuthRoute)
 app.use('/books', BookRoute)
-app.use('/genre', GenreRoute)
-app.use('/rent', RentRoute)
-app.use('/return', ReturnRoute)
