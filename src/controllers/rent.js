@@ -14,5 +14,5 @@ module.exports = {
     modelRent.rentBook(data, id)
       .then(result => res.json(result))
       .catch(err => console.log(err))
-  }
+  },
 }

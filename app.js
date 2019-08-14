@@ -4,6 +4,7 @@ const express = require('express')
 const app = express()
 const logger = require('morgan')
 const bodyParser = require('body-parser')
+const AuthRoute = require('./src/routes/auth')
 const BookRoute = require('./src/routes/books')
 const GenreRoute = require('./src/routes/genres')
 const RentRoute = require('./src/routes/rent')
@@ -21,6 +22,7 @@ app.use(bodyParser({
 }))
 
 // Middleware Route
+app.use('/', AuthRoute)
 app.use('/books', BookRoute)
 app.use('/genre', GenreRoute)
 app.use('/rent', RentRoute)

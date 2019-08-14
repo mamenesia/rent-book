@@ -7,5 +7,4 @@ Route
   .get('/', RentController.getAvailableBooks)
   .patch('/:id', RentController.rentBook)
 
-
 module.exports = Route

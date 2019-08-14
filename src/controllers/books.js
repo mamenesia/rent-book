@@ -3,8 +3,6 @@ const modelBooks = require('../models/books')
 module.exports = {
   getBooks: (req, res) => {
     const numPerPage = 3
-    // let dataLength = Object.keys(req.query).length
-    // // const numPages = Math.ceil(dataLength / numPerPage)
     let activePage = req.query.page || 1
     let beginData = (numPerPage * activePage) - numPerPage
     modelBooks.getBooks(beginData, numPerPage)
