@@ -9,24 +9,14 @@ const verifyToken = require('../middleware/verifyToken')
 Route
   .get('/', (req, res) => {
     res.json({
-      message: "Welcome to Rent Book Api"
+      message: "Welcome to Rent Book Api",
+      login: "If you already have an account, please login",
+      register: "Register your account today to use Rent Book API"
     })
   })
   .post('/register', AuthController.registerUser)
-  // .get('/register', AuthController.registerUser)
   .post('/login', AuthController.loginUser)
-// .post('/posts', verifyToken, (req, res) => {
-//   jwt.verify(req.token, 'secretkey', (err, authData) => {
-//     if (err) {
-//       res.sendStatus(403)
-//     } else {
-//       res.json({
-//         message: 'Post has been created successfully',
-//         authData
-//       })
-//     }
-//   })
-// })
+
 
 
 module.exports = Route

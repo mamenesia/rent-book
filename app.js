@@ -19,5 +19,7 @@ app.use(bodyParser({
 }))
 
 // Middleware Route
+// Route for homepage, register and login
 app.use('/', AuthRoute)
+// Route for API
 app.use('/books', BookRoute)

@@ -13,6 +13,17 @@ module.exports = {
       })
     })
   },
+  getABook: (id) => {
+    return new Promise((resolve, reject) => {
+      conn.query(`${joinTable} AND book.book_id=?`, id, (err, result) => {
+        if (!err) {
+          resolve(result)
+        } else {
+          reject(result)
+        }
+      })
+    })
+  },
   insertBook: (data) => {
     return new Promise((resolve, reject) => {
       conn.query('INSERT book SET ?', data, (err, result) => {
@@ -49,9 +60,9 @@ module.exports = {
       })
     })
   },
-  getAvailableBooks: () => {
+  getAvailableBooks: (beginData, numPerPage, sort, order, querySearch) => {
     return new Promise((resolve, reject) => {
-      conn.query(`${joinTable} AND status.status_id=1`, (err, result) => {
+      conn.query(`${joinTable} AND status.status_id=1 ${querySearch} ORDER BY book.${sort} ${order} LIMIT ?, ?`, [beginData, numPerPage], (err, result) => {
         if (!err) {
           resolve(result)
         } else {
