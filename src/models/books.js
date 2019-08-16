@@ -148,6 +148,17 @@ module.exports = {
       })
     })
   },
+  genreCheckById: (id) => {
+    return new Promise((resolve, reject) => {
+      conn.query('SELECT * FROM genre WHERE genre_id=?', id, (err, result) => {
+        if (!err) {
+          resolve(result)
+        } else {
+          reject(err)
+        }
+      })
+    })
+  },
   insertGenre: (data) => {
     return new Promise((resolve, reject) => {
       conn.query('INSERT genre SET ?', data, (err, result) => {

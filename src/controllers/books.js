@@ -80,22 +80,47 @@ module.exports = {
 
     let id = req.params.id
 
-    modelBooks.updateBook(data, id)
-      .then(result => res.json({
-        status: 200,
-        message: 'Book has successfully updated',
-        result
-      }))
-      .catch(err => console.log(err))
+    modelBooks.getABook(id)
+      .then(result => {
+        if (result.length !== 0) {
+          return modelBooks.updateBook(data, id)
+            .then(result => res.json({
+              status: 200,
+              message: 'Book has successfully updated',
+              result
+            }))
+            .catch(err => {
+              console.log(err)
+            })
+        } else {
+          return res.status(400).send({
+            status: 400,
+            message: 'Book does not exist'
+          })
+        }
+      })
+
   },
   deleteBook: (req, res) => {
     let id = req.params.id
-    modelBooks.deleteBook(id)
-      .then(result => res.send({
-        message: 'Book has been deleted',
-        result: result
-      }))
-      .catch(err => console.log(err))
+
+    modelBooks.getABook(id)
+      .then(result => {
+        if (result.length !== 0) {
+          return modelBooks.deleteBook(id)
+            .then(result => res.send({
+              message: 'Book has been deleted',
+              result: result
+            }))
+            .catch(err => console.log(err))
+        } else {
+          return res.status(400).send({
+            status: 400,
+            message: 'Book does not exist'
+          })
+        }
+
+      })
   },
   getAvailableBooks: (req, res) => {
     const numPerPage = parseInt(req.query.item) || 3
@@ -135,7 +160,6 @@ module.exports = {
             message: 'The book has already borrowed by someone else'
           })
         }
-
       })
 
 
@@ -242,30 +266,46 @@ module.exports = {
     const data = {
       genre: req.body.genre
     }
-
     let id = req.params.id
-    modelBooks.updateGenre(data, id)
-      .then(result => res.json({
-        status: 200,
-        message: 'Genre has successfully updated',
-        result
-      }))
-      .catch(err => console.log(err))
+
+    modelBooks.genreCheckById(id)
+      .then(result => {
+        if (result.length !== 0) {
+          return modelBooks.updateGenre(data, id)
+            .then(result => res.json({
+              status: 200,
+              message: 'Genre has successfully updated',
+              result
+            }))
+            .catch(err => console.log(err))
+        } else {
+          return res.status(400).send({
+            status: 400,
+            message: 'Genre does not exist'
+          })
+        }
+      })
+
   },
   deleteGenre: (req, res) => {
     let id = req.params.id
-    modelBooks.deleteGenre(id)
-      .then(result => res.json({
-        status: 200,
-        message: 'Genre has been deleted',
-        result
-      }))
-      .catch(err => {
-        console.log(err)
-        res.status(400).send({
-          status: 400,
-          message: 'Genre does not exist'
-        })
+
+    modelBooks.genreCheckById(id)
+      .then(result => {
+        if (result.length !== 0) {
+          return modelBooks.deleteGenre(id)
+            .then(result => res.json({
+              status: 200,
+              message: 'Genre has been deleted',
+              result
+            }))
+            .catch(err => console.log(err))
+        } else {
+          return res.status(400).send({
+            status: 400,
+            message: 'Genre does not exist'
+          })
+        }
       })
   }
 }
