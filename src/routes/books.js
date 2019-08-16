@@ -6,8 +6,8 @@ const BookController = require('../controllers/books')
 
 Route
   // Books CRUD 
-  .get('/', verify, BookController.getBooks)
-  .get('/show/:id', verify, BookController.getABook)
+  .get('/', BookController.getBooks)
+  .get('/show/:id', BookController.getABook)
   .post('/', verify, BookController.insertBook)
   .patch('/:id', verify, BookController.updateBook)
   .delete('/:id', verify, BookController.deleteBook)
@@ -18,7 +18,7 @@ Route
   .get('/return', verify, BookController.getAllRentedBook)
   .patch('/return/:id', verify, BookController.returnBook)
   // Genre CRUD
-  .get('/genre', verify, BookController.getGenres)
+  .get('/genre', BookController.getGenres)
   .post('/genre', verify, BookController.insertGenre)
   .patch('/genre/:id', verify, BookController.updateGenre)
   .delete('/genre/:id', verify, BookController.deleteGenre)

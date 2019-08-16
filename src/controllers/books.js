@@ -120,29 +120,25 @@ module.exports = {
     }
     let id = req.params.id
 
-    // Check if the book is not available
-    const bookStatus = conn.query('SELECT * FROM book WHERE book_id=? AND available=0', id, (err, result) => {
-      if (!err) {
-        console.log(result)
-        return result
-      } else {
-        return err
-      }
-    })
+    modelBooks.bookAvailable(id)
+      .then(result => {
+        if (result.length !== 0) {
+          return modelBooks.rentBook(data, id)
+            .then(result => res.json({
+              status: 200,
+              message: 'Book has successfully rented'
+            }))
+            .catch(err => console.log(err))
+        } else {
+          return res.status(400).send({
+            status: 400,
+            message: 'The book has already borrowed by someone else'
+          })
+        }
 
-    if (bookStatus !== []) {
-      return res.status(400).send({
-        status: 400,
-        message: 'The Book is already borrowed by someone else'
       })
-    }
 
-    modelBooks.rentBook(data, id)
-      .then(result => res.json({
-        status: 200,
-        message: 'Book has successfully rented'
-      }))
-      .catch(err => console.log(err))
+
   },
   getAllRentedBook: (req, res) => {
     modelBooks.getAllRentedBook()
@@ -160,27 +156,37 @@ module.exports = {
     let id = req.params.id
 
     // Check if the book is available
-    const bookAvailable = conn.query('SELECT * FROM book WHERE book_id=? AND available=1', id, (err, result) => {
-      if (!err) {
-        console.log(result)
-        return result
-      } else {
-        return err
-      }
-    })
-    if (bookAvailable !== []) {
-      return res.status(400).send({
-        status: 400,
-        message: 'The Book is not borrowed by anyone, why are you trying to prank me ?'
-      })
-    }
+    // const bookAvailable = conn.query('SELECT * FROM book WHERE book_id=? AND available=1', id, (err, result) => {
+    //   if (!err) {
+    //     console.log(result)
+    //     return result
+    //   } else {
+    //     return err
+    //   }
+    // })
+    // if (bookAvailable !== []) {
+    //   return res.status(400).send({
+    //     status: 400,
+    //     message: 'The Book is not borrowed by anyone, why are you trying to prank me ?'
+    //   })
+    // }
 
-    modelBooks.returnBook(data, id)
-      .then(result => res.json({
-        status: 200,
-        message: 'Book has successfully returned'
-      }))
-      .catch(err => console.log(err))
+    modelBooks.bookNotAvailable(id)
+      .then(result => {
+        if (result.length !== 0) {
+          return modelBooks.returnBook(data, id)
+            .then(result => res.json({
+              status: 200,
+              message: 'Book has successfully returned'
+            }))
+            .catch(err => console.log(err))
+        } else {
+          return res.status(400).send({
+            status: 400,
+            message: 'The Book is not borrowed by anyone, why are you trying to prank me ?'
+          })
+        }
+      })
   },
   getGenres: (req, res) => {
     modelBooks.getGenres()
@@ -197,29 +203,40 @@ module.exports = {
     }
 
     // Check if the genre already exist in DB
-    let genreCheck = conn.query('SELECT * FROM genre WHERE genre=?', req.body.genre, (err, result) => {
-      if (!err) {
-        console.log(result)
-        return result
-      } else {
-        return err
-      }
-    })
+    // let genreCheck = conn.query('SELECT * FROM genre WHERE genre=?', req.body.genre, (err, result) => {
+    //   if (!err) {
+    //     console.log(result)
+    //     return result
+    //   } else {
+    //     return err
+    //   }
+    // })
 
-    if (genreCheck[0] !== undefined) {
-      return res.status(400).send({
-        status: 400,
-        message: 'Genre has already exist'
+    // if (genreCheck[0] !== undefined) {
+    //   return res.status(400).send({
+    //     status: 400,
+    //     message: 'Genre has already exist'
+    //   })
+    // }
+
+    modelBooks.genreCheck(data)
+      .then(result => {
+        if (result.length === 0) {
+          return modelBooks.insertGenre(data)
+            .then(result => res.json({
+              status: 200,
+              message: 'Genre has successfully added'
+            }))
+            .catch(err => console.log(err))
+        } else {
+          return res.status(400).send({
+            status: 400,
+            message: 'The genre is already exist'
+          })
+        }
       })
-    }
 
-    modelBooks.insertGenre(data)
-      .then(result => res.json({
-        status: 200,
-        message: 'Genre has successfully added',
-        result
-      }))
-      .catch(err => console.log(err))
+
   },
   updateGenre: (req, res) => {
     const data = {
@@ -243,6 +260,12 @@ module.exports = {
         message: 'Genre has been deleted',
         result
       }))
-      .catch(err => console.log(err))
+      .catch(err => {
+        console.log(err)
+        res.status(400).send({
+          status: 400,
+          message: 'Genre does not exist'
+        })
+      })
   }
 }

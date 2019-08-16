@@ -161,7 +161,15 @@ CREATE TABLE user(
 - **Response** :
 
   ```
-
+    {
+    "status": 200,
+    "message": "The user is successfully registered!",
+    "user": {
+        "username": "dedy003",
+        "email": "dedyprasetyoh003@gmail.com",
+        "password": "$2a$10$ThIm7Ra5opmjcrVq.vkN3.9J8m5wUCNPfyYBKgm3c9du2/OhY17Mu"
+    }
+  }
   ```
 
 #### **Register**

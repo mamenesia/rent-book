@@ -71,6 +71,28 @@ module.exports = {
       })
     })
   },
+  bookAvailable: (id) => {
+    return new Promise((resolve, reject) => {
+      conn.query('SELECT * FROM book WHERE book_id=? AND available=1', id, (err, result) => {
+        if (!err) {
+          resolve(result)
+        } else {
+          reject(err)
+        }
+      })
+    })
+  },
+  bookNotAvailable: (id) => {
+    return new Promise((resolve, reject) => {
+      conn.query('SELECT * FROM book WHERE book_id=? AND available=0', id, (err, result) => {
+        if (!err) {
+          resolve(result)
+        } else {
+          reject(err)
+        }
+      })
+    })
+  },
   rentBook: (data, id) => {
     return new Promise((resolve, reject) => {
       conn.query('UPDATE book SET ? WHERE book_id=?', [data, id], (err, result) => {
@@ -107,6 +129,17 @@ module.exports = {
   getGenres: () => {
     return new Promise((resolve, reject) => {
       conn.query('SELECT * FROM genre', (err, result) => {
+        if (!err) {
+          resolve(result)
+        } else {
+          reject(err)
+        }
+      })
+    })
+  },
+  genreCheck: (data) => {
+    return new Promise((resolve, reject) => {
+      conn.query('SELECT * FROM genre WHERE genre=?', data.genre, (err, result) => {
         if (!err) {
           resolve(result)
         } else {

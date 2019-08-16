@@ -10,7 +10,7 @@ const {
 } = require('../middleware/validation')
 
 module.exports = {
-  registerUser: (req, res) => {
+  registerUser: async (req, res) => {
 
     // Validate register data
     const {
@@ -19,32 +19,6 @@ module.exports = {
     if (error) return res.status(400).send({
       status: 400,
       message: error.details[0].message
-    })
-
-    // Checking if the username  is already in the db
-    const usernameCheck = conn.query(`SELECT * FROM user WHERE username=?`, req.body.username, (err, result) => {
-      if (!err) {
-        return result
-      } else {
-        return err
-      }
-    })
-    if (usernameCheck === []) return res.status(400).send({
-      status: 400,
-      message: 'Username is already exist!'
-    })
-
-    // Checking if the username  is already in the db
-    const emailCheck = conn.query('SELECT * FROM user WHERE email=?', req.body.email, (err, result) => {
-      if (!err) {
-        return result
-      } else {
-        return err
-      }
-    })
-    if (emailCheck === []) return res.status(400).send({
-      status: 400,
-      message: 'Email is already registered'
     })
 
     // Hash the password
@@ -57,17 +31,33 @@ module.exports = {
       email: req.body.email,
       password: hashedPassword
     }
-    modelAuth.registerUser(data)
-      .then(result => res.json({
-        status: 200,
-        message: 'The user is successfully registered!',
-        user: {
-          username: req.body.username,
-          email: req.body.email,
-          password: hashedPassword
+
+    // Check username or email already exist
+    modelAuth.registerCheck(data)
+      .then(result => {
+        if (result.length === 0) {
+          // Register the user
+          return modelAuth.registerUser(data)
+            .then(result => res.json({
+              status: 200,
+              message: 'The user is successfully registered!',
+              user: {
+                username: req.body.username,
+                email: req.body.email,
+                password: hashedPassword
+              }
+            }))
+            .catch(err => console.log(err))
+        } else {
+          // respond if username or email exist
+          return res.status(400).send({
+            status: 400,
+            message: 'Username or Email already registered'
+          })
         }
-      }))
-      .catch(err => console.log(err))
+      })
+
+
   },
   loginUser: (req, res) => {
     // Validate login data

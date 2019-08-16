@@ -22,5 +22,18 @@ module.exports = {
         }
       })
     })
-  }
+  },
+  registerCheck: (data) => {
+    return new Promise((resolve, reject) => {
+      conn.query(`SELECT * FROM user WHERE username=? OR email=?`, [data.username, data.email], (err, result) => {
+        if (!err) {
+          resolve(result)
+        } else {
+          reject(result)
+        }
+      })
+    })
+  },
+
+
 }
