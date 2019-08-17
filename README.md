@@ -24,6 +24,7 @@ This documentation outlines the rent book API functionality.
 ##Getting Started
 
 ![node.js](https://www.javatpoint.com/js/nodejs/images/node-js-tutorial.png)
+
 ###Node.js
 Node.js is an open-source, cross-platform JavaScript run-time environment that executes JavaScript code outside of a browser.
 
@@ -34,12 +35,14 @@ Nodejs was written in 2009 by Ryan Dahl, 13 years after the introduction of firs
 The initial release of Nodejs in 2009 supported only Linux and Mac OS X. Later in July 2011, the first Nodejs build supporting Windows was released.
 
 ![express](https://expressjs.com/images/express-facebook-share.png)
+
 ###Express.js
 Express.js, or simply Express, is a web application framework for Node.js, released as free and open-source software under the MIT License. It is designed for building web applications and APIs. It has been called the de facto standard server framework for Node.js.
 
 The philosophy of Expressjs is to provide a small and robust tooling for HTTP servers. Making it a great solution for single page apps, website, hybrids, or public HTTP APIs. 
 
 ![restful api](https://s3.amazonaws.com/kinlane-productions/salesforce/salesforce-rest-api.png)
+
 ###RESTFul API
 A RESTful API is an application program interface (API) that uses HTTP requests to GET, PUT, POST and DELETE data.
 
@@ -60,7 +63,7 @@ RESTful API design was defined by Dr. Roy Fielding in his 2000 doctorate dissert
 Access to the API is granted by providing your username and password using HTTP basic authentication. The username and password used, is the same username and password you use to register.
 
 ###Authorization
-For authorization system, this API use JWT (jsonwebtoken).
+For authorization, this API use JWT (jsonwebtoken).
 
 ###HTTP Requests
 All API requests are made by sending a secure HTTPS request using one of the following methods, depending on the action being taken:
