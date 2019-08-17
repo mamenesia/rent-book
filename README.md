@@ -208,9 +208,9 @@ CREATE TABLE user(
 }
 ```
 #### **CRUD Books Endpoint**
-**Read All Books**
-- **Request** : **`GET /books`**
-- **Response** :
+* **Read All Books**
+  - **Request** : **`GET /books`**
+  - **Response** :
 ```
 {
     "status": 200,
@@ -242,9 +242,9 @@ CREATE TABLE user(
     ]
 }
 ```
-**Read a book**
-- **Request** : **`GET /books/show/:id`**
-- **Response** :
+* **Read a book**
+  - **Request** : **`GET /books/show/:id`**
+  - **Response** :
 ```
 [
     {
@@ -257,18 +257,18 @@ CREATE TABLE user(
     }
 ]
 ```
-**Create a book**
-- **Request** : **`POST /books`**
-- **Response** :
+* **Create a book**
+  - **Request** : **`POST /books`**
+  - **Response** :
 ```
 {
     "status": 200,
     "message": "Book has successfully added!"
 }
 ```
-**Update a book**
-- **Request** : **`PATCH /books/:id`**
-- **Response** :
+* **Update a book**
+  - **Request** : **`PATCH /books/:id`**
+  - **Response** :
 ```
 {
     "status": 200,
@@ -285,9 +285,9 @@ CREATE TABLE user(
     }
 }
 ```
-**Delete a book**
-- **Request** : **`DELETE /books/:id`**
-- **Response** : 
+* **Delete a book**
+  - **Request** : **`DELETE /books/:id`**
+  - **Response** : 
 ```
 {
     "message": "Book has been deleted",
@@ -305,9 +305,9 @@ CREATE TABLE user(
 ```
 
 #### CRUD Genre Endpoint
-**Read All Genres**
-- **Request** : **`GET /books/genre`**
-- **Response** :
+* **Read All Genres**
+  - **Request** : **`GET /books/genre`**
+  - **Response** :
 ```
 {
     "status": 200,
@@ -352,18 +352,18 @@ CREATE TABLE user(
     ]
 }
 ```
-**Create a genre**
-- **Request** : **`POST /books/genre`**
-- **Response** :
+* **Create a genre**
+  - **Request** : **`POST /books/genre`**
+  - **Response** :
 ```
 {
     "status": 200,
     "message": "Genre has successfully added"
 }
 ```
-**Update a Genre**
-- **Request** : **`PATCH /books/genre/:id`**
-- **Response** :
+* **Update a Genre**
+  - **Request** : **`PATCH /books/genre/:id`**
+  - **Response** :
 ```
 {
     "status": 200,
@@ -380,9 +380,9 @@ CREATE TABLE user(
     }
 }
 ```
-**Delete a Genre**
-- **Request** : **`DELETE /books/genre/:id`**
-- **Response** :
+* **Delete a Genre**
+  - **Request** : **`DELETE /books/genre/:id`**
+  - **Response** :
 ```
 {
     "status": 200,
