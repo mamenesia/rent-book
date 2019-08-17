@@ -196,51 +196,357 @@ CREATE TABLE user(
   }
   ```
 
-#### **Register**
+#### **Login**
 
 - **Request** : **`POST /login`**
 - **Response** :
 ```
-
+{
+    "status": 200,
+    "message": "Login successfully!",
+    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Im1hbWVuZXNpYSIsImlhdCI6MTU2NjAwNDI2Nn0.Pu71LkGJn9wYM6n_xk5qadXoH4DfoE1jIQq01iN_7u8"
+}
 ```
 #### **CRUD Books Endpoint**
-
-- **`GET /books`**
-- **`GET /books/show/:id`**
-- **`POST /books`**
-- **`PATCH /books/:id`**
-- **`DELETE /books/:id`**
+**Read All Books**
+- **Request** : **`GET /books`**
+- **Response** :
+```
+{
+    "status": 200,
+    "result": [
+        {
+            "title": "Wordl War II",
+            "desc": "The history of world war II",
+            "image_url": "cover world war II",
+            "released_at": "2019-08-03T17:00:00.000Z",
+            "genre": "History",
+            "status": "Not Available"
+        },
+        {
+            "title": "The Witcher",
+            "desc": "The Witcher is an action role-playing game developed by CD Projekt Red and published by Atari, based on the novel series of The Witcher by Polish author Andrzej Sapkowski.",
+            "image_url": "image the witcher",
+            "released_at": "2019-08-02T17:00:00.000Z",
+            "genre": "Novel",
+            "status": "Available"
+        },
+        {
+            "title": "Calculus",
+            "desc": "Mathematics hell",
+            "image_url": "image book math",
+            "released_at": "2019-08-01T17:00:00.000Z",
+            "genre": "Education",
+            "status": "Not Available"
+        }
+    ]
+}
+```
+**Read a book**
+- **Request** : **`GET /books/show/:id`**
+- **Response** :
+```
+[
+    {
+        "title": "Modern Javascript",
+        "desc": "Book for modern javascript",
+        "image_url": "image javacscript",
+        "released_at": "2019-07-31T17:00:00.000Z",
+        "genre": "Education",
+        "status": "Not Available"
+    }
+]
+```
+**Create a book**
+- **Request** : **`POST /books`**
+- **Response** :
+```
+{
+    "status": 200,
+    "message": "Book has successfully added!"
+}
+```
+**Update a book**
+- **Request** : **`PATCH /books/:id`**
+- **Response** :
+```
+{
+    "status": 200,
+    "message": "Book has successfully updated",
+    "result": {
+        "fieldCount": 0,
+        "affectedRows": 1,
+        "insertId": 0,
+        "serverStatus": 2,
+        "warningCount": 0,
+        "message": "(Rows matched: 1  Changed: 0  Warnings: 0",
+        "protocol41": true,
+        "changedRows": 0
+    }
+}
+```
+**Delete a book**
+- **Request** : **`DELETE /books/:id`**
+- **Response** : 
+```
+{
+    "message": "Book has been deleted",
+    "result": {
+        "fieldCount": 0,
+        "affectedRows": 1,
+        "insertId": 0,
+        "serverStatus": 2,
+        "warningCount": 0,
+        "message": "",
+        "protocol41": true,
+        "changedRows": 0
+    }
+}
+```
 
 #### CRUD Genre Endpoint
-
-- **`GET /books/genre`**
-- **`POST /books/genre`**
-- **`PATCH /books/genre/:id`**
-- **`DELETE /books/genre/:id`**
+**Read All Genres**
+- **Request** : **`GET /books/genre`**
+- **Response** :
+```
+{
+    "status": 200,
+    "message": "This is the lists of genres",
+    "result": [
+        {
+            "genre_id": 1,
+            "genre": "Education"
+        },
+        {
+            "genre_id": 2,
+            "genre": "Novel"
+        },
+        {
+            "genre_id": 3,
+            "genre": "History"
+        },
+        {
+            "genre_id": 4,
+            "genre": "Biography"
+        },
+        {
+            "genre_id": 5,
+            "genre": "Childrens"
+        },
+        {
+            "genre_id": 6,
+            "genre": "Technology"
+        },
+        {
+            "genre_id": 7,
+            "genre": "Motivation"
+        },
+        {
+            "genre_id": 8,
+            "genre": "Business"
+        },
+        {
+            "genre_id": 11,
+            "genre": "Health"
+        }
+    ]
+}
+```
+**Create a genre**
+- **Request** : **`POST /books/genre`**
+- **Response** :
+```
+{
+    "status": 200,
+    "message": "Genre has successfully added"
+}
+```
+**Update a Genre**
+- **Request** : **`PATCH /books/genre/:id`**
+- **Response** :
+```
+{
+    "status": 200,
+    "message": "Genre has successfully updated",
+    "result": {
+        "fieldCount": 0,
+        "affectedRows": 1,
+        "insertId": 0,
+        "serverStatus": 2,
+        "warningCount": 0,
+        "message": "(Rows matched: 1  Changed: 1  Warnings: 0",
+        "protocol41": true,
+        "changedRows": 1
+    }
+}
+```
+**Delete a Genre**
+- **Request** : **`DELETE /books/genre/:id`**
+- **Response** :
+```
+{
+    "status": 200,
+    "message": "Genre has been deleted",
+    "result": {
+        "fieldCount": 0,
+        "affectedRows": 1,
+        "insertId": 0,
+        "serverStatus": 2,
+        "warningCount": 0,
+        "message": "",
+        "protocol41": true,
+        "changedRows": 0
+    }
+}
+```
 
 #### Rent and Return Book Endpoint
 
-Rent a Book
-
-- **`GET /books/rent`**
-- **`PATCH /books/rent/:id`**
-
-Return a Book
-
-- **`GET /books/return`**
-- **`PATCH /books/return/:id`**
-
-#### Request
-
-| Query Parameter        | Type     | Description                                                                                                          |
-| :--------------------- | :------- | :------------------------------------------------------------------------------------------------------------------- |
-| client_time (optional) | `number` | Send client_time \(in ms since Epoch\) to include the time drift between your client and our server in the response. |
-
-#### Response
-
-```javascript
+**Rent a Book**
+* **Read All Available Books**
+  - **Request** : **`GET /books/rent`**
+  - **Response** :
+```
 {
-    "timestamp": 1511572042589
+    "status": 200,
+    "message": "This is the lists of available books",
+    "result": [
+        {
+            "title": "The Witcher",
+            "desc": "The Witcher is an action role-playing game developed by CD Projekt Red and published by Atari, based on the novel series of The Witcher by Polish author Andrzej Sapkowski.",
+            "image_url": "image the witcher",
+            "released_at": "2019-08-02T17:00:00.000Z",
+            "genre": "Novel",
+            "status": "Available"
+        },
+        {
+            "title": "The Hunger Games",
+            "desc": "Could you survive on your own, in the wild, with everyone out to make sure you don't live to see the morning?\r\n\r\nIn the ruins of a place once known as North America lies the nation of Panem, a shining Capitol surrounded by twelve outlying districts. The Capitol is harsh and cruel and keeps the districts in line by forcing them all to send one boy and one girl between the ages of twelve and eighteen to participate in the annual Hunger Games, a fight to the death on live TV. Sixteen-year-old Katniss Everdeen, who lives alone with her mother and younger sister, regards it as a death sentence when she is forced to represent her district in the Games. But Katniss has been close to dead before - and survival, for her, is second nature. Without really meaning to, she becomes a contender. But if she is to win, she will have to start making choices that weigh survival against humanity and life against love.",
+            "image_url": "https://i.gr-assets.com/images/S/compressed.photo.goodreads.com/books/1447303603l/2767052.jpg",
+            "released_at": "2018-09-13T17:00:00.000Z",
+            "genre": "Novel",
+            "status": "Available"
+        },
+        {
+            "title": "To Kill a Mockingbird",
+            "desc": "The unforgettable novel of a childhood in a sleepy Southern town and the crisis of conscience that rocked it, To Kill A Mockingbird became both an instant bestseller and a critical success when it was first published in 1960. It went on to win the Pulitzer Prize in 1961 and was later made into an Academy Award-winning film, also a classic.",
+            "image_url": "https://i.gr-assets.com/images/S/compressed.photo.goodreads.com/books/1553383690l/2657.jpg",
+            "released_at": "2006-05-22T17:00:00.000Z",
+            "genre": "Novel",
+            "status": "Available"
+        }
+    ]
+}
+```
+* **Rent a book**
+  - **Request** : **`PATCH /books/rent/:id`**
+  - **Response** :
+```
+{
+    "status": 200,
+    "message": "Book has successfully rented"
+}
+```
+
+**Return a Book**
+* **Read All Not Available Book**
+  - **Request** : **`GET /books/return`**
+  - **Response** : 
+```
+{
+    "status": 200,
+    "message": "This is the lists of unavailable books",
+    "result": [
+        {
+            "title": "Modern Javascript",
+            "desc": "Book for modern javascript",
+            "image_url": "image javacscript",
+            "released_at": "2019-07-31T17:00:00.000Z",
+            "genre": "Education",
+            "status": "Not Available"
+        },
+        {
+            "title": "Calculus",
+            "desc": "Mathematics hell",
+            "image_url": "image book math",
+            "released_at": "2019-08-01T17:00:00.000Z",
+            "genre": "Education",
+            "status": "Not Available"
+        },
+        {
+            "title": "The Witcher",
+            "desc": "The Witcher is an action role-playing game developed by CD Projekt Red and published by Atari, based on the novel series of The Witcher by Polish author Andrzej Sapkowski.",
+            "image_url": "image the witcher",
+            "released_at": "2019-08-02T17:00:00.000Z",
+            "genre": "Novel",
+            "status": "Not Available"
+        },
+        {
+            "title": "Wordl War II",
+            "desc": "The history of world war II",
+            "image_url": "cover world war II",
+            "released_at": "2019-08-03T17:00:00.000Z",
+            "genre": "History",
+            "status": "Not Available"
+        },
+        {
+            "title": "Harry Potter and the Order of the Phoenix",
+            "desc": "There is a door at the end of a silent corridor. And it’s haunting Harry Pottter’s dreams. Why else would he be waking in the middle of the night, screaming in terror?\r\n\r\nHarry has a lot on his mind for this, his fifth year at Hogwarts: a Defense Against the Dark Arts teacher with a personality like poisoned honey; a big surprise on the Gryffindor Quidditch team; and the looming terror of the Ordinary Wizarding Level exams. But all these things pale next to the growing threat of He-Who-Must-Not-Be-Named---a threat that neither the magical government nor the authorities at Hogwarts can stop.",
+            "image_url": "https://i.gr-assets.com/images/S/compressed.photo.goodreads.com/books/1546910265l/2.jpg",
+            "released_at": "2004-08-31T17:00:00.000Z",
+            "genre": "Novel",
+            "status": "Not Available"
+        },
+        {
+            "title": "Twilight",
+            "desc": "About three things I was absolutely positive.\r\n\r\nFirst, Edward was a vampire.\r\n\r\nSecond, there was a part of him—and I didn't know how dominant that part might be—that thirsted for my blood.\r\n\r\nAnd third, I was unconditionally and irrevocably in love with him.\r\n\r\nIn the first book of the Twilight Saga, internationally bestselling author Stephenie Meyer introduces Bella Swan and Edward Cullen, a pair of star-crossed lovers whose forbidden relationship ripens against the backdrop of small-town suspicion and a mysterious coven of vampires. This is a love story with bite.",
+            "image_url": "https://i.gr-assets.com/images/S/compressed.photo.goodreads.com/books/1361039443l/41865.jpg",
+            "released_at": "2006-09-05T17:00:00.000Z",
+            "genre": "Novel",
+            "status": "Not Available"
+        },
+        {
+            "title": "Animal Farm",
+            "desc": "George Orwell's timeless and timely allegorical novel—a scathing satire on a downtrodden society’s blind march towards totalitarianism.\r\n\r\n“All animals are equal, but some animals are more equal than others.”",
+            "image_url": "https://i.gr-assets.com/images/S/compressed.photo.goodreads.com/books/1424037542l/7613.jpg",
+            "released_at": "2003-05-05T17:00:00.000Z",
+            "genre": "Education",
+            "status": "Not Available"
+        },
+        {
+            "title": "The Chronicles of Narnia",
+            "desc": "Journeys to the end of the world, fantastic creatures, and epic battles between good and evil—what more could any reader ask for in one book? The book that has it all is The Lion, the Witch and the Wardrobe, written in 1949 by Clive Staples Lewis. But Lewis did not stop there. Six more books followed, and together they became known as The Chronicles of Narnia.",
+            "image_url": "https://i.gr-assets.com/images/S/compressed.photo.goodreads.com/books/1449868701l/11127._SY475_.jpg",
+            "released_at": "2002-09-15T17:00:00.000Z",
+            "genre": "History",
+            "status": "Not Available"
+        },
+        {
+            "title": "The Fault in Our Stars",
+            "desc": "Despite the tumor-shrinking medical miracle that has bought her a few years, Hazel has never been anything but terminal, her final chapter inscribed upon diagnosis. But when a gorgeous plot twist named Augustus Waters suddenly appears at Cancer Kid Support Group, Hazel's story is about to be completely rewritten.",
+            "image_url": "https://i.gr-assets.com/images/S/compressed.photo.goodreads.com/books/1360206420l/11870085.jpg",
+            "released_at": "2012-01-09T17:00:00.000Z",
+            "genre": "Education",
+            "status": "Not Available"
+        },
+        {
+            "title": "The Giving Tree",
+            "desc": "\"Once there was a tree...and she loved a little boy.\"\r\n\r\nSo begins a story of unforgettable perception, beautifully written and illustrated by the gifted and versatile Shel Silverstein.\r\n\r\nEvery day the boy would come to the tree to eat her apples, swing from her branches, or slide down her trunk...and the tree was happy. But as the boy grew older he began to want more from the tree, and the tree gave and gave and gave.",
+            "image_url": "https://i.gr-assets.com/images/S/compressed.photo.goodreads.com/books/1174210942l/370493._SX318_.jpg",
+            "released_at": "1964-10-06T17:00:00.000Z",
+            "genre": "Childrens",
+            "status": "Not Available"
+        }
+    ]
+}
+```
+* **Return a book**
+  - **Request** : **`PATCH /books/return/:id`**
+  - **Response** : 
+```
+{
+    "status": 200,
+    "message": "Book has successfully returned"
 }
 ```
 
