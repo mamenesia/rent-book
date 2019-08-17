@@ -14,7 +14,7 @@ app.listen(port, () => {
 
 app.use(logger('dev'))
 app.use(bodyParser.json())
-app.use(bodyParser({
+app.use(bodyParser.urlencoded({
   extended: false
 }))
 
