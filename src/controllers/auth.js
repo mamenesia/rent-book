@@ -53,7 +53,7 @@ module.exports = {
           // respond if username or email exist
           return res.status(400).send({
             status: 400,
-            message: 'Username or Email already registered'
+            message: 'Username or Email already registered!'
           })
         }
       })
@@ -92,6 +92,8 @@ module.exports = {
         res.header('Authorization', token).send({
           status: 200,
           message: 'Login successfully!',
+          username: req.body.username,
+          password: req.body.password,
           token
         })
       })

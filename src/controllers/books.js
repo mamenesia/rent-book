@@ -3,7 +3,7 @@ const modelBooks = require('../models/books')
 
 module.exports = {
   getBooks: (req, res) => {
-    const numPerPage = parseInt(req.query.item) || 3
+    const numPerPage = parseInt(req.query.limit) || 10
     const activePage = req.query.page || 1
     const beginData = numPerPage * (activePage - 1)
     const sort = req.query.sort || 'released_at'
@@ -14,6 +14,11 @@ module.exports = {
     modelBooks.getBooks(beginData, numPerPage, sort, order, querySearch)
       .then(result => res.json({
         status: 200,
+        currentPage: activePage,
+        limit: numPerPage,
+        sort,
+        order,
+        search,
         result
       }))
       .catch(err => console.log(err))
@@ -26,30 +31,20 @@ module.exports = {
         if (result[0] === undefined) {
           return res.status(400).send({
             status: 400,
+            id,
             message: 'The book does not exist'
           })
         }
-        res.json(result)
+        res.json({
+          status: 200,
+          id: id,
+          message: 'Book successfully retrieved',
+          result
+        })
       })
       .catch(err => console.log(err))
   },
   insertBook: (req, res) => {
-    // Checking if book already exist
-    // const bookExist = conn.query('SELECT * FROM book WHERE title=?', req.body.title, (err, result) => {
-    //   if (!err) {
-    //     console.log(result[0])
-    //     return result
-    //   } else {
-    //     return err
-    //   }
-    // })
-    // if (bookExist[0] !== undefined) {
-    //   return res.status(400).send({
-    //     status: 400,
-    //     message: 'The Book is already exist in DB'
-    //   })
-    // }
-
     const data = {
       title: req.body.title,
       desc: req.body.desc,
@@ -62,7 +57,8 @@ module.exports = {
     modelBooks.insertBook(data)
       .then(result => res.send({
         status: 200,
-        message: 'Book has successfully added!'
+        message: 'Book has successfully added!',
+        data
       }))
       .catch(err => console.log(err))
   },
@@ -83,19 +79,18 @@ module.exports = {
             .then(result => res.json({
               status: 200,
               message: 'Book has successfully updated',
-              result
+              id,
+              data
             }))
-            .catch(err => {
-              console.log(err)
-            })
+            .catch(err => console.log(err))
         } else {
           return res.status(400).send({
             status: 400,
+            id,
             message: 'Book does not exist'
           })
         }
       })
-
   },
   deleteBook: (req, res) => {
     const id = req.params.id
@@ -104,13 +99,15 @@ module.exports = {
         if (result.length !== 0) {
           return modelBooks.deleteBook(id)
             .then(result => res.send({
+              status: 200,
+              id: id,
               message: 'Book has been deleted',
-              result: result
             }))
             .catch(err => console.log(err))
         } else {
           return res.status(400).send({
             status: 400,
+            id,
             message: 'Book does not exist'
           })
         }
@@ -130,6 +127,11 @@ module.exports = {
       .then(result => res.json({
         status: 200,
         message: 'This is the lists of available books',
+        currentPage: activePage,
+        limit: numPerPage,
+        sort,
+        order,
+        search,
         result
       }))
       .catch(err => console.log(err))
@@ -145,23 +147,24 @@ module.exports = {
           return modelBooks.rentBook(data, id)
             .then(result => res.json({
               status: 200,
+              id,
               message: 'Book has successfully rented'
             }))
             .catch(err => console.log(err))
         } else {
           return res.status(400).send({
             status: 400,
+            id,
             message: 'The book has already borrowed by someone else'
           })
         }
       })
-
-
   },
   getAllRentedBook: (req, res) => {
     modelBooks.getAllRentedBook()
       .then(result => res.json({
         status: 200,
+        totalData: result.length,
         message: 'This is the lists of unavailable books',
         result
       }))
@@ -172,33 +175,20 @@ module.exports = {
       available: 1
     }
     const id = req.params.id
-    // Check if the book is available
-    // const bookAvailable = conn.query('SELECT * FROM book WHERE book_id=? AND available=1', id, (err, result) => {
-    //   if (!err) {
-    //     console.log(result)
-    //     return result
-    //   } else {
-    //     return err
-    //   }
-    // })
-    // if (bookAvailable !== []) {
-    //   return res.status(400).send({
-    //     status: 400,
-    //     message: 'The Book is not borrowed by anyone, why are you trying to prank me ?'
-    //   })
-    // }
     modelBooks.bookNotAvailable(id)
       .then(result => {
         if (result.length !== 0) {
           return modelBooks.returnBook(data, id)
             .then(result => res.json({
               status: 200,
+              id,
               message: 'Book has successfully returned'
             }))
             .catch(err => console.log(err))
         } else {
           return res.status(400).send({
             status: 400,
+            id,
             message: 'The Book is not borrowed by anyone, why are you trying to prank me ?'
           })
         }
@@ -208,6 +198,7 @@ module.exports = {
     modelBooks.getGenres()
       .then(result => res.json({
         status: 200,
+        totalData: result.length,
         message: 'This is the lists of genres',
         result
       }))
@@ -217,37 +208,21 @@ module.exports = {
     const data = {
       genre: req.body.genre
     }
-
-    // Check if the genre already exist in DB
-    // let genreCheck = conn.query('SELECT * FROM genre WHERE genre=?', req.body.genre, (err, result) => {
-    //   if (!err) {
-    //     console.log(result)
-    //     return result
-    //   } else {
-    //     return err
-    //   }
-    // })
-
-    // if (genreCheck[0] !== undefined) {
-    //   return res.status(400).send({
-    //     status: 400,
-    //     message: 'Genre has already exist'
-    //   })
-    // }
-
     modelBooks.genreCheck(data)
       .then(result => {
         if (result.length === 0) {
           return modelBooks.insertGenre(data)
             .then(result => res.json({
               status: 200,
-              message: 'Genre has successfully added'
+              message: 'Genre has successfully added',
+              data
             }))
             .catch(err => console.log(err))
         } else {
           return res.status(400).send({
             status: 400,
-            message: 'The genre is already exist'
+            message: 'The genre is already exist',
+            data
           })
         }
       })
@@ -266,12 +241,15 @@ module.exports = {
             .then(result => res.json({
               status: 200,
               message: 'Genre has successfully updated',
-              result
+              id,
+              data
             }))
             .catch(err => console.log(err))
         } else {
           return res.status(400).send({
             status: 400,
+            id,
+            genre,
             message: 'Genre does not exist'
           })
         }
@@ -286,13 +264,14 @@ module.exports = {
           return modelBooks.deleteGenre(id)
             .then(result => res.json({
               status: 200,
-              message: 'Genre has been deleted',
-              result
+              id,
+              message: 'Genre has been deleted'
             }))
             .catch(err => console.log(err))
         } else {
           return res.status(400).send({
             status: 400,
+            id,
             message: 'Genre does not exist'
           })
         }
