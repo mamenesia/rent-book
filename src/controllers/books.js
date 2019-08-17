@@ -1,19 +1,15 @@
 require('dotenv').config()
-const conn = require('../configs/db')
 const modelBooks = require('../models/books')
-const verifyToken = require('../middleware/verifyToken')
-const jwt = require('jsonwebtoken')
-
 
 module.exports = {
   getBooks: (req, res) => {
     const numPerPage = parseInt(req.query.item) || 3
-    let activePage = req.query.page || 1
-    let beginData = numPerPage * (activePage - 1)
-    let sort = req.query.sort || 'released_at'
-    let order = req.query.order || 'DESC'
-    let search = req.query.search || null
-    let querySearch = (search !== null) ? `AND book.title LIKE '%${search}%'` : ''
+    const activePage = req.query.page || 1
+    const beginData = numPerPage * (activePage - 1)
+    const sort = req.query.sort || 'released_at'
+    const order = req.query.order || 'DESC'
+    const search = req.query.search || null
+    const querySearch = (search !== null) ? `AND book.title LIKE '%${search}%'` : ''
 
     modelBooks.getBooks(beginData, numPerPage, sort, order, querySearch)
       .then(result => res.json({
@@ -23,7 +19,7 @@ module.exports = {
       .catch(err => console.log(err))
   },
   getABook: (req, res) => {
-    let id = req.params.id
+    const id = req.params.id
     modelBooks.getABook(id)
       .then(result => {
         // Checking if book does not exist
@@ -78,7 +74,7 @@ module.exports = {
       genre: req.body.genre
     }
 
-    let id = req.params.id
+    const id = req.params.id
 
     modelBooks.getABook(id)
       .then(result => {
@@ -102,8 +98,7 @@ module.exports = {
 
   },
   deleteBook: (req, res) => {
-    let id = req.params.id
-
+    const id = req.params.id
     modelBooks.getABook(id)
       .then(result => {
         if (result.length !== 0) {
@@ -124,12 +119,12 @@ module.exports = {
   },
   getAvailableBooks: (req, res) => {
     const numPerPage = parseInt(req.query.item) || 3
-    let activePage = req.query.page || 1
-    let beginData = numPerPage * (activePage - 1)
-    let sort = req.query.sort || 'released_at'
-    let order = req.query.order || 'DESC'
-    let search = req.query.search || null
-    let querySearch = (search !== null) ? `AND book.title LIKE '%${search}%'` : ''
+    const activePage = req.query.page || 1
+    const beginData = numPerPage * (activePage - 1)
+    const sort = req.query.sort || 'released_at'
+    const order = req.query.order || 'DESC'
+    const search = req.query.search || null
+    const querySearch = (search !== null) ? `AND book.title LIKE '%${search}%'` : ''
 
     modelBooks.getAvailableBooks(beginData, numPerPage, sort, order, querySearch)
       .then(result => res.json({
@@ -143,8 +138,7 @@ module.exports = {
     const data = {
       available: 0
     }
-    let id = req.params.id
-
+    const id = req.params.id
     modelBooks.bookAvailable(id)
       .then(result => {
         if (result.length !== 0) {
@@ -177,8 +171,7 @@ module.exports = {
     const data = {
       available: 1
     }
-    let id = req.params.id
-
+    const id = req.params.id
     // Check if the book is available
     // const bookAvailable = conn.query('SELECT * FROM book WHERE book_id=? AND available=1', id, (err, result) => {
     //   if (!err) {
@@ -194,7 +187,6 @@ module.exports = {
     //     message: 'The Book is not borrowed by anyone, why are you trying to prank me ?'
     //   })
     // }
-
     modelBooks.bookNotAvailable(id)
       .then(result => {
         if (result.length !== 0) {
@@ -266,8 +258,7 @@ module.exports = {
     const data = {
       genre: req.body.genre
     }
-    let id = req.params.id
-
+    const id = req.params.id
     modelBooks.genreCheckById(id)
       .then(result => {
         if (result.length !== 0) {
@@ -288,8 +279,7 @@ module.exports = {
 
   },
   deleteGenre: (req, res) => {
-    let id = req.params.id
-
+    const id = req.params.id
     modelBooks.genreCheckById(id)
       .then(result => {
         if (result.length !== 0) {

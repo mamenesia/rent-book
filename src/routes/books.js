@@ -23,5 +23,4 @@ Route
   .patch('/genre/:id', verify, BookController.updateGenre)
   .delete('/genre/:id', verify, BookController.deleteGenre)
 
-
 module.exports = Route

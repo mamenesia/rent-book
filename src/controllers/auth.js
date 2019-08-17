@@ -1,5 +1,5 @@
 require('dotenv').config()
-const conn = require('../configs/db')
+
 const modelAuth = require('../models/auth')
 const jwt = require('jsonwebtoken')
 const bcrypt = require('bcryptjs')
@@ -10,16 +10,17 @@ const {
 } = require('../middleware/validation')
 
 module.exports = {
-  registerUser: async (req, res) => {
-
+  registerUser: (req, res) => {
     // Validate register data
     const {
       error
     } = registerValidation(req.body)
-    if (error) return res.status(400).send({
-      status: 400,
-      message: error.details[0].message
-    })
+    if (error) {
+      return res.status(400).send({
+        status: 400,
+        message: error.details[0].message
+      })
+    }
 
     // Hash the password
     const salt = bcrypt.genSaltSync(10)
@@ -56,19 +57,18 @@ module.exports = {
           })
         }
       })
-
-
   },
   loginUser: (req, res) => {
     // Validate login data
     const {
       error
     } = loginValidation(req.body)
-    if (error) return res.status(400).send({
-      status: 400,
-      message: error.details[0].message
-    })
-
+    if (error) {
+      return res.status(400).send({
+        status: 400,
+        message: error.details[0].message
+      })
+    }
     const data = {
       username: req.body.username,
       password: req.body.password
@@ -78,10 +78,12 @@ module.exports = {
       .then(result => {
         // check hashed password
         const validPassword = bcrypt.compareSync(req.body.password, result[0].password)
-        if (!validPassword) return res.send({
-          status: 400,
-          message: 'Wrong Password!'
-        })
+        if (!validPassword) {
+          return res.send({
+            status: 400,
+            message: 'Wrong Password!'
+          })
+        }
         // Create and assign token
         const token = jwt.sign({
           username: result[0].username
@@ -92,7 +94,6 @@ module.exports = {
           message: 'Login successfully!',
           token
         })
-
       })
       .catch(err => res.send({
         status: 400,

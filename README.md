@@ -27,16 +27,40 @@ This documentation outlines the rent book API functionality.
 ###Node.js
 Node.js is an open-source, cross-platform JavaScript run-time environment that executes JavaScript code outside of a browser.
 
+Nodejs allow developers to use javascript to write command line tools and for **server side scripting**. Hence, Nodejs represent what we know about "Javascript Everywhere" Paradigm, which allow us to us javascript on both **client-side** and **server-side**. Nodejs use **V8** Javascript Engine, the same engine for Chrome and Chromium based browser used.
+
+Nodejs was written in 2009 by Ryan Dahl, 13 years after the introduction of first server-side javascript environment which is **Netscape's LiveWire Pro Web**. Dahl write Nodejs based on his critic on the performance limitation of the most popular web server in 2009, Apache HTTP Server.
+
+The initial release of Nodejs in 2009 supported only Linux and Mac OS X. Later in July 2011, the first Nodejs build supporting Windows was released.
+
 ![express](https://expressjs.com/images/express-facebook-share.png)
 ###Express.js
 Express.js, or simply Express, is a web application framework for Node.js, released as free and open-source software under the MIT License. It is designed for building web applications and APIs. It has been called the de facto standard server framework for Node.js.
 
+The philosophy of Expressjs is to provide a small and robust tooling for HTTP servers. Making it a great solution for single page apps, website, hybrids, or public HTTP APIs. 
+
 ![restful api](https://s3.amazonaws.com/kinlane-productions/salesforce/salesforce-rest-api.png)
 ###RESTFul API
+A RESTful API is an application program interface (API) that uses HTTP requests to GET, PUT, POST and DELETE data.
+
+A RESTful API -- also referred to as a RESTful web service -- is based on representational state transfer (REST) technology, an architectural style and approach to communications often used in web services development.
+
 Representational State Transfer is a software architectural style that defines a set of constraints to be used for creating Web services. Web services that conform to the REST architectural style, called RESTful Web services, provide interoperability between computer systems on the Internet.
 
+RESTful API design was defined by Dr. Roy Fielding in his 2000 doctorate dissertation. In order to be a true RESTful API, a web service must adhere to the following six REST architectural constraints:
+
+* Use of a uniform interface (UI). Resources should be uniquely identifiable through a single URL, and only by using the underlying methods of the network protocol, such as DELETE, PUT and GET with HTTP, should it be possible to manipulate a resource.
+* Client-server based. There should be a clear delineation between the client and server. UI and request-gathering concerns are the client’s domain. Data access, workload management and security are the server’s domain. This loose coupling of the client and server enables each to be developed and enhanced independent of the other.
+* Stateless operations. All client-server operations should be stateless, and any state management that is required should take place on the client, not the server.
+* RESTful resource caching. All resources should allow caching unless explicitly indicated that caching is not possible.
+* Layered system. REST allows for an architecture composed of multiple layers of servers.
+* Code on demand. Most of the time a server will send back static representations of resources in the form of XML or JSON. However, when necessary, servers can send executable code to the client.
+  
 ###Authentication
 Access to the API is granted by providing your username and password using HTTP basic authentication. The username and password used, is the same username and password you use to register.
+
+###Authorization
+For authorization system, this API use JWT (jsonwebtoken).
 
 ###HTTP Requests
 All API requests are made by sending a secure HTTPS request using one of the following methods, depending on the action being taken:

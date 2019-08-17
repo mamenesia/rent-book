@@ -2,9 +2,6 @@
 const express = require('express')
 const Route = express.Router()
 const AuthController = require('../controllers/auth')
-const jwt = require('jsonwebtoken')
-
-const verifyToken = require('../middleware/verifyToken')
 
 Route
   .get('/', (req, res) => {
@@ -16,7 +13,5 @@ Route
   })
   .post('/register', AuthController.registerUser)
   .post('/login', AuthController.loginUser)
-
-
 
 module.exports = Route
