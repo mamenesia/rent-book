@@ -260,7 +260,7 @@ CREATE TABLE user(
     }
 ]
 ```
-* **Create a book**
+* **Create a book** (Need Verification)
   - **Request** : **`POST /books`**
   - **Response** :
 ```
@@ -269,7 +269,7 @@ CREATE TABLE user(
     "message": "Book has successfully added!"
 }
 ```
-* **Update a book**
+* **Update a book** (Need Verification)
   - **Request** : **`PATCH /books/:id`**
   - **Response** :
 ```
@@ -288,7 +288,7 @@ CREATE TABLE user(
     }
 }
 ```
-* **Delete a book**
+* **Delete a book** (Need Verification)
   - **Request** : **`DELETE /books/:id`**
   - **Response** : 
 ```
@@ -355,7 +355,7 @@ CREATE TABLE user(
     ]
 }
 ```
-* **Create a genre**
+* **Create a genre** (Need Verification)
   - **Request** : **`POST /books/genre`**
   - **Response** :
 ```
@@ -364,7 +364,7 @@ CREATE TABLE user(
     "message": "Genre has successfully added"
 }
 ```
-* **Update a Genre**
+* **Update a Genre** (Need Verification)
   - **Request** : **`PATCH /books/genre/:id`**
   - **Response** :
 ```
@@ -383,7 +383,7 @@ CREATE TABLE user(
     }
 }
 ```
-* **Delete a Genre**
+* **Delete a Genre** (Need Verification)
   - **Request** : **`DELETE /books/genre/:id`**
   - **Response** :
 ```
@@ -405,7 +405,7 @@ CREATE TABLE user(
 
 #### Rent and Return Book Endpoint
 
-**Rent a Book**
+**Rent a Book** (Need Verification)
 * **Read All Available Books**
   - **Request** : **`GET /books/rent`**
   - **Response** :
@@ -451,7 +451,7 @@ CREATE TABLE user(
 }
 ```
 
-**Return a Book**
+**Return a Book** (Need Verification)
 * **Read All Not Available Book**
   - **Request** : **`GET /books/return`**
   - **Response** : 
