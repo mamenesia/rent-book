@@ -21,11 +21,11 @@ This documentation outlines the rent book API functionality.
 3. <a href="https://www.getpostman.com/">Postman</a>
 4. Web Server (ex. localhost)
 
-##Getting Started
+## Getting Started
 
 ![node.js](https://www.javatpoint.com/js/nodejs/images/node-js-tutorial.png)
 
-###Node.js
+### Node.js
 Node.js is an open-source, cross-platform JavaScript run-time environment that executes JavaScript code outside of a browser.
 
 Nodejs allow developers to use javascript to write command line tools and for **server side scripting**. Hence, Nodejs represent what we know about "Javascript Everywhere" Paradigm, which allow us to us javascript on both **client-side** and **server-side**. Nodejs use **V8** Javascript Engine, the same engine for Chrome and Chromium based browser used.
@@ -36,14 +36,14 @@ The initial release of Nodejs in 2009 supported only Linux and Mac OS X. Later i
 
 ![express](https://expressjs.com/images/express-facebook-share.png)
 
-###Express.js
+### Express.js
 Express.js, or simply Express, is a web application framework for Node.js, released as free and open-source software under the MIT License. It is designed for building web applications and APIs. It has been called the de facto standard server framework for Node.js.
 
 The philosophy of Expressjs is to provide a small and robust tooling for HTTP servers. Making it a great solution for single page apps, website, hybrids, or public HTTP APIs. 
 
 ![restful api](https://s3.amazonaws.com/kinlane-productions/salesforce/salesforce-rest-api.png)
 
-###RESTFul API
+### RESTFul API
 A RESTful API is an application program interface (API) that uses HTTP requests to GET, PUT, POST and DELETE data.
 
 A RESTful API -- also referred to as a RESTful web service -- is based on representational state transfer (REST) technology, an architectural style and approach to communications often used in web services development.
@@ -59,13 +59,13 @@ RESTful API design was defined by Dr. Roy Fielding in his 2000 doctorate dissert
 * Layered system. REST allows for an architecture composed of multiple layers of servers.
 * Code on demand. Most of the time a server will send back static representations of resources in the form of XML or JSON. However, when necessary, servers can send executable code to the client.
   
-###Authentication
+### Authentication
 Access to the API is granted by providing your username and password using HTTP basic authentication. The username and password used, is the same username and password you use to register.
 
-###Authorization
+### Authorization
 For authorization, this API use JWT (jsonwebtoken).
 
-###HTTP Requests
+### HTTP Requests
 All API requests are made by sending a secure HTTPS request using one of the following methods, depending on the action being taken:
 
 - `GET` Get a resource or list of resources
@@ -99,7 +99,7 @@ Each response will be returned with one of the following HTTP status codes:
 8. Choose HTTP Method and enter the request URL.(i.e. localhost:8080/books)
 9. Check all **Endpoints** [here](#endpoints)
 
-##Setup .env file
+## Setup .env file
 Open **.env** file on code editor and copy the code below :
 
 ```
@@ -113,7 +113,7 @@ DB_NAME = 'rent_book'
 TOKEN_SECRET = 'secretToken'
 ```
 
-##Setup Database
+## Setup Database
 You can write this code below on your Terminal with mysql cli or import it to **phpmyadmin**.
 
 Create Database named **rent-book** :
