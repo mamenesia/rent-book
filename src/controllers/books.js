@@ -3,15 +3,18 @@ const modelBooks = require('../models/books')
 
 module.exports = {
   getBooks: (req, res) => {
-    const numPerPage = parseInt(req.query.limit) || 10
+    const numPerPage = parseInt(req.query.limit) || 12
     const activePage = req.query.page || 1
     const beginData = numPerPage * (activePage - 1)
     const sort = req.query.sort || 'released_at'
     const order = req.query.order || 'DESC'
     const search = req.query.search || null
+    const genre = req.query.genre || null
+    const queryLimit = (numPerPage !== null) ? `LIMIT ${beginData},${numPerPage}` : ''
     const querySearch = (search !== null) ? `AND book.title LIKE '%${search}%'` : ''
+    const queryGenre = (genre !== null) ? `AND genre.genre LIKE '%${genre}%'` : ''
 
-    modelBooks.getBooks(beginData, numPerPage, sort, order, querySearch)
+    modelBooks.getBooks(queryLimit, sort, order, querySearch, queryGenre)
       .then(result => res.json({
         status: 200,
         currentPage: activePage,
@@ -49,9 +52,9 @@ module.exports = {
       title: req.body.title,
       desc: req.body.desc,
       image_url: req.body.image,
-      released_at: new Date(req.body.date),
+      released_at: Date(req.body.released_at),
       genre: req.body.genre,
-      available: req.body.available
+      available: parseInt(req.body.available)
     }
 
     modelBooks.insertBook(data)
@@ -115,7 +118,7 @@ module.exports = {
       })
   },
   getAvailableBooks: (req, res) => {
-    const numPerPage = parseInt(req.query.item) || 3
+    const numPerPage = parseInt(req.query.item) || 12
     const activePage = req.query.page || 1
     const beginData = numPerPage * (activePage - 1)
     const sort = req.query.sort || 'released_at'

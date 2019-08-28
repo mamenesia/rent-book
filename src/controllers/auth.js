@@ -87,13 +87,15 @@ module.exports = {
         // Create and assign token
         const token = jwt.sign({
           username: result[0].username
-        }, process.env.TOKEN_SECRET)
-
-        res.header('Authorization', token).send({
+        }, process.env.TOKEN_SECRET, {
+          expiresIn: '10h'
+        })
+        // res.header('Authorization', token)
+        res.send({
           status: 200,
           message: 'Login successfully!',
-          username: req.body.username,
-          password: req.body.password,
+          username: result.username,
+          password: result.password,
           token
         })
       })

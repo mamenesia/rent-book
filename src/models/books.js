@@ -1,10 +1,10 @@
 const conn = require('../configs/db')
-const joinTable = 'SELECT book.title, book.desc, book.image_url, book.released_at, genre.genre, status.status FROM book, genre, status WHERE book.genre=genre.genre_id AND book.available=status.status_id'
+const joinTable = 'SELECT book.book_id, book.title, book.desc, book.image_url, book.released_at, genre.genre, status.status FROM book, genre, status WHERE book.genre=genre.genre_id AND book.available=status.status_id'
 
 module.exports = {
-  getBooks: (beginData, numPerPage, sort, order, querySearch) => {
+  getBooks: (queryLimit, sort, order, querySearch, queryGenre) => {
     return new Promise((resolve, reject) => {
-      conn.query(`${joinTable} ${querySearch} ORDER BY book.${sort} ${order} LIMIT ?, ?`, [beginData, numPerPage], (err, result) => {
+      conn.query(`${joinTable} ${querySearch} ${queryGenre} ORDER BY book.${sort} ${order} ${queryLimit}`, (err, result) => {
         if (!err) {
           resolve(result)
         } else {
