@@ -11,9 +11,9 @@ Route
   // Books CRUD 
   .get('/', cors(), BookController.getBooks)
   .get('/show/:id', BookController.getABook)
-  .post('/',  BookController.insertBook)
-  .patch('/:id',  BookController.updateBook)
-  .delete('/:id',  BookController.deleteBook)
+  .post('/', BookController.insertBook)
+  .patch('/:id', BookController.updateBook)
+  .delete('/:id', BookController.deleteBook)
   // Rent book
   .get('/rent', BookController.getAvailableBooks)
   .patch('/rent/:id', BookController.rentBook)
@@ -22,8 +22,10 @@ Route
   .patch('/return/:id', BookController.returnBook)
   // Genre CRUD
   .get('/genre', BookController.getGenres)
-  .post('/genre',  BookController.insertGenre)
-  .patch('/genre/:id',  BookController.updateGenre)
-  .delete('/genre/:id',  BookController.deleteGenre)
+  .post('/genre', BookController.insertGenre)
+  .patch('/genre/:id', BookController.updateGenre)
+  .delete('/genre/:id', BookController.deleteGenre)
+  // History
+  .get('/history', BookController.getHistory)
 
 module.exports = Route

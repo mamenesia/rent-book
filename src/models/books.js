@@ -93,10 +93,22 @@ module.exports = {
       })
     })
   },
+  rentHistory: (history) => {
+    return new Promise((resolve, reject) => {
+      conn.query(`INSERT history SET ?`, history, (err, res) => {
+        if (!err) {
+          resolve(res)
+        } else {
+          reject(err)
+        }
+      })
+    })
+  },
   rentBook: (data, id) => {
     return new Promise((resolve, reject) => {
       conn.query('UPDATE book SET ? WHERE book_id=?', [data, id], (err, result) => {
         if (!err) {
+
           resolve(result)
         } else {
           reject(err)
@@ -107,6 +119,17 @@ module.exports = {
   getAllRentedBook: () => {
     return new Promise((resolve, reject) => {
       conn.query(`${joinTable} AND status.status_id=0`, (err, result) => {
+        if (!err) {
+          resolve(result)
+        } else {
+          reject(err)
+        }
+      })
+    })
+  },
+  returnHistory: (history, return_at) => {
+    return new Promise((resolve, reject) => {
+      conn.query(`UPDATE history SET ? WHERE book_id= ? AND user_id=?`, [return_at, history.book_id, history.user_id], (err, result) => {
         if (!err) {
           resolve(result)
         } else {
@@ -184,6 +207,17 @@ module.exports = {
   deleteGenre: (id) => {
     return new Promise((resolve, reject) => {
       conn.query('DELETE FROM genre WHERE genre_id=?', id, (err, result) => {
+        if (!err) {
+          resolve(result)
+        } else {
+          reject(err)
+        }
+      })
+    })
+  },
+  getHistory: () => {
+    return new Promise((resolve, reject) => {
+      conn.query('SELECT book.book_id, history.user_id, book.title, history.rent_at, history.expired_at, history.return_at, user.username FROM book, history, user WHERE book.book_id=history.book_id AND history.user_id=user.id', (err, result) => {
         if (!err) {
           resolve(result)
         } else {

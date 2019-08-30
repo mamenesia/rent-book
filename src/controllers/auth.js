@@ -16,7 +16,7 @@ module.exports = {
       error
     } = registerValidation(req.body)
     if (error) {
-      return res.status(400).send({
+      return res.send({
         status: 400,
         message: error.details[0].message
       })
@@ -86,6 +86,7 @@ module.exports = {
         }
         // Create and assign token
         const token = jwt.sign({
+          id: result[0].id,
           username: result[0].username
         }, process.env.TOKEN_SECRET, {
           expiresIn: '10h'

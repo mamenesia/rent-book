@@ -2,7 +2,7 @@ require('dotenv').config()
 const jwt = require('jsonwebtoken')
 
 module.exports = (req, res, next) => {
-  const token = req.header('Authorization')
+  const token = req.headers['Authorization']
   if (!token) return res.sendStatus(401)
 
   try {

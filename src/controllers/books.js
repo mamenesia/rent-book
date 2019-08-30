@@ -3,7 +3,7 @@ const modelBooks = require('../models/books')
 
 module.exports = {
   getBooks: (req, res) => {
-    const numPerPage = parseInt(req.query.limit) || 12
+    const numPerPage = parseInt(req.query.limit) || null
     const activePage = req.query.page || 1
     const beginData = numPerPage * (activePage - 1)
     const sort = req.query.sort || 'released_at'
@@ -48,11 +48,12 @@ module.exports = {
       .catch(err => console.log(err))
   },
   insertBook: (req, res) => {
+    // const [year, month, day] = req.body.released_at
     const data = {
       title: req.body.title,
       desc: req.body.desc,
       image_url: req.body.image,
-      released_at: Date(req.body.released_at),
+      released_at: req.body.released_at,
       genre: req.body.genre,
       available: parseInt(req.body.available)
     }
@@ -144,16 +145,26 @@ module.exports = {
       available: 0
     }
     const id = req.params.id
+    const history = {
+      book_id: id,
+      user_id: parseInt(req.body.user_id),
+      rent_at: new Date(Date.now()),
+      expired_at: new Date(Date.now()) + new Date(604800000),
+      return_at: 'false'
+    }
     modelBooks.bookAvailable(id)
       .then(result => {
         if (result.length !== 0) {
-          return modelBooks.rentBook(data, id)
-            .then(result => res.json({
-              status: 200,
-              id,
-              message: 'Book has successfully rented'
-            }))
-            .catch(err => console.log(err))
+          return modelBooks.rentHistory(history)
+            .then(result => {
+              return modelBooks.rentBook(data, id)
+                .then(result => res.json({
+                  status: 200,
+                  id,
+                  message: 'Book has successfully rented'
+                }))
+                .catch(err => console.log(err))
+            })
         } else {
           return res.status(400).send({
             status: 400,
@@ -178,16 +189,27 @@ module.exports = {
       available: 1
     }
     const id = req.params.id
+    const history = {
+      book_id: id,
+      user_id: req.body.user_id,
+    }
+    const return_at = {
+      return_at: new Date(Date.now())
+    }
     modelBooks.bookNotAvailable(id)
       .then(result => {
         if (result.length !== 0) {
-          return modelBooks.returnBook(data, id)
-            .then(result => res.json({
-              status: 200,
-              id,
-              message: 'Book has successfully returned'
-            }))
-            .catch(err => console.log(err))
+          return modelBooks.returnHistory(history, return_at)
+            .then(res => {
+              return modelBooks.returnBook(data, id)
+                .then(result => res.send({
+                  status: 200,
+                  id,
+                  message: 'Book has successfully returned'
+                }))
+                .catch(err => console.log(err))
+            })
+
         } else {
           return res.status(400).send({
             status: 400,
@@ -278,6 +300,27 @@ module.exports = {
             message: 'Genre does not exist'
           })
         }
+      })
+  },
+  getHistory: (req, res) => {
+    modelBooks.getHistory()
+      .then(result => {
+        if (result.length !== 0) {
+
+          res.send({
+            status: 200,
+            message: 'User History Successfully Received!',
+            result
+          })
+        } else {
+          res.send({
+            status: 400,
+            message: 'User History is not exist'
+          })
+        }
+      })
+      .catch(err => {
+        console.log(err)
       })
   }
 }
