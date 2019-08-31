@@ -149,7 +149,7 @@ module.exports = {
       book_id: id,
       user_id: parseInt(req.body.user_id),
       rent_at: new Date(Date.now()),
-      expired_at: new Date(Date.now()) + new Date(604800000),
+      expired_at: new Date(Date.now() + 604800000 * 2),
       return_at: 'false'
     }
     modelBooks.bookAvailable(id)
