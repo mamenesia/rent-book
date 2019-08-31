@@ -69,9 +69,9 @@ module.exports = {
   updateBook: (req, res) => {
     const data = {
       title: req.body.title,
-      desc: req.body.desc,
       image_url: req.body.image,
-      genre: req.body.genre
+      genre: req.body.genre,
+      desc: req.body.desc
     }
 
     const id = req.params.id
@@ -154,11 +154,11 @@ module.exports = {
     }
     modelBooks.bookAvailable(id)
       .then(result => {
-        if (result.length !== 0) {
+        if (res.length !== 0) {
           return modelBooks.rentHistory(history)
             .then(result => {
               return modelBooks.rentBook(data, id)
-                .then(result => res.json({
+                .then(result => res.send({
                   status: 200,
                   id,
                   message: 'Book has successfully rented'
@@ -200,9 +200,9 @@ module.exports = {
       .then(result => {
         if (result.length !== 0) {
           return modelBooks.returnHistory(history, return_at)
-            .then(res => {
+            .then(result => {
               return modelBooks.returnBook(data, id)
-                .then(result => res.send({
+                .then(result => res.json({
                   status: 200,
                   id,
                   message: 'Book has successfully returned'

@@ -7,10 +7,10 @@ const bodyParser = require('body-parser')
 const AuthRoute = require('./src/routes/auth')
 const BookRoute = require('./src/routes/books')
 const cors = require('cors');
-const port = process.env.SERVER_PORT || 3306
+const PORT = process.env.PORT || 3306
 
-app.listen(port, () => {
-  console.log(`Server running on port: ${port}`)
+app.listen(PORT, () => {
+  console.log(`Server running on port: ${PORT}`)
 })
 
 app.use(logger('dev'))
