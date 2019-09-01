@@ -1,5 +1,7 @@
 <h1 align="center">RENT BOOK RESTful API</h1>
 
+<h3>The Deployed API can be accessed in <a href='https://mysterious-badlands-23204.herokuapp.com/'>this Heroku link</a></h3>
+
 # Overview
 
 ## Introduction
